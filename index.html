@@ -32,7 +32,7 @@
         video.play();
         requestAnimationFrame(tick);
       }).catch((err) => {
-        parent.postMessage({ type: "qrError", message: err.message }, "*");
+        alert("Camera access denied: " + err.message);
       });
 
     function tick() {
@@ -47,7 +47,8 @@
         const code = jsQR(imageData.data, canvas.width, canvas.height);
 
         if (code) {
-          parent.postMessage({ type: "qrScanned", code: code.data }, "*");
+          const redirectUrl = `https://www.manifoldgraceministries.org/checkin?code=${encodeURIComponent(code.data)}`;
+          window.location.href = redirectUrl;
         }
       }
       requestAnimationFrame(tick);
